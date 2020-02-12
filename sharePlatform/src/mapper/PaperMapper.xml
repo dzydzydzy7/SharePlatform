@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.PaperMapper">
+  <resultMap id="BaseResultMap" type="po.Paper">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="journal" jdbcType="VARCHAR" property="journal" />
+    <result column="field" jdbcType="VARCHAR" property="field" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="downTimes" jdbcType="INTEGER" property="downtimes" />
+    <result column="uploadTime" jdbcType="TIMESTAMP" property="uploadtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="po.Paper">
+    <result column="abstarct" jdbcType="LONGVARCHAR" property="abstarct" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userid, title, author, journal, field, url, downTimes, uploadTime
+  </sql>
+  <sql id="Blob_Column_List">
+    abstarct
+  </sql>
+  <select id="selectAllPaper" resultMap="ResultMapWithBLOBs">
+  	select * from paper 
+  </select>
+  <select id="selectByField" parameterType="String" resultMap="ResultMapWithBLOBs">
+  	select * from paper where field = #{field}
+  </select>
+  <select id="selectByUser" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  	select * from paper where userid = #{userid}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from paper
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from paper
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Paper">
+    insert into paper (id, userid, title, 
+      author, journal, field, 
+      url, downTimes, uploadTime, 
+      abstarct)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{journal,jdbcType=VARCHAR}, #{field,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{downtimes,jdbcType=INTEGER}, #{uploadtime,jdbcType=TIMESTAMP}, 
+      #{abstarct,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Paper">
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="journal != null">
+        journal,
+      </if>
+      <if test="field != null">
+        field,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="downtimes != null">
+        downTimes,
+      </if>
+      <if test="uploadtime != null">
+        uploadTime,
+      </if>
+      <if test="abstarct != null">
+        abstarct,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="journal != null">
+        #{journal,jdbcType=VARCHAR},
+      </if>
+      <if test="field != null">
+        #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="downtimes != null">
+        #{downtimes,jdbcType=INTEGER},
+      </if>
+      <if test="uploadtime != null">
+        #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="abstarct != null">
+        #{abstarct,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Paper">
+    update paper
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="journal != null">
+        journal = #{journal,jdbcType=VARCHAR},
+      </if>
+      <if test="field != null">
+        field = #{field,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="downtimes != null">
+        downTimes = #{downtimes,jdbcType=INTEGER},
+      </if>
+      <if test="uploadtime != null">
+        uploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="abstarct != null">
+        abstarct = #{abstarct,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="po.Paper">
+    update paper
+    set userid = #{userid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      journal = #{journal,jdbcType=VARCHAR},
+      field = #{field,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      downTimes = #{downtimes,jdbcType=INTEGER},
+      uploadTime = #{uploadtime,jdbcType=TIMESTAMP},
+      abstarct = #{abstarct,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Paper">
+    update paper
+    set userid = #{userid,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      journal = #{journal,jdbcType=VARCHAR},
+      field = #{field,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      downTimes = #{downtimes,jdbcType=INTEGER},
+      uploadTime = #{uploadtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.FieldMapper">
+  <resultMap id="BaseResultMap" type="po.Field">
+    <id column="fieldCN" jdbcType="VARCHAR" property="fieldcn" />
+    <result column="fieldEN" jdbcType="VARCHAR" property="fielden" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    fieldCN, fieldEN
+  </sql>
+  <select id="selectAllFields" resultMap="BaseResultMap">
+  	select * from field
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from field
+    where fieldCN = #{fieldcn,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from field
+    where fieldCN = #{fieldcn,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="po.Field">
+    insert into field (fieldCN, fieldEN)
+    values (#{fieldcn,jdbcType=VARCHAR}, #{fielden,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="po.Field">
+    insert into field
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="fieldcn != null">
+        fieldCN,
+      </if>
+      <if test="fielden != null">
+        fieldEN,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="fieldcn != null">
+        #{fieldcn,jdbcType=VARCHAR},
+      </if>
+      <if test="fielden != null">
+        #{fielden,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Field">
+    update field
+    <set>
+      <if test="fielden != null">
+        fieldEN = #{fielden,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where fieldCN = #{fieldcn,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Field">
+    update field
+    set fieldEN = #{fielden,jdbcType=VARCHAR}
+    where fieldCN = #{fieldcn,jdbcType=VARCHAR}
+  </update>
+</mapper>

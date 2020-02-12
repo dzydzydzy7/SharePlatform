@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.CommentMapper">
+  <resultMap id="BaseResultMap" type="po.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="clazz" jdbcType="TINYINT" property="clazz" />
+    <result column="otherid" jdbcType="INTEGER" property="otherid" />
+    <result column="com_time" jdbcType="TIMESTAMP" property="comTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="po.Comment">
+    <result column="comment" jdbcType="LONGVARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, userid, clazz, otherid, com_time
+  </sql>
+  <sql id="Blob_Column_List">
+    comment
+  </sql>
+  <select id="selectByPaperId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  	select * from comment where clazz = 1 and otherid = #{otherid}
+  </select>
+  <select id="selectByCodeId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  	select * from comment where clazz = 2 and otherid = #{otherid}
+  </select>
+  <select id="selectByDataSetId" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  	select * from comment where clazz = 3 and otherid = #{otherid}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from comment
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.Comment">
+    insert into comment (id, userid, clazz, 
+      otherid, com_time, comment
+      )
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{clazz,jdbcType=TINYINT}, 
+      #{otherid,jdbcType=INTEGER}, #{comTime,jdbcType=TIMESTAMP}, #{comment,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.Comment">
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="clazz != null">
+        clazz,
+      </if>
+      <if test="otherid != null">
+        otherid,
+      </if>
+      <if test="comTime != null">
+        com_time,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="clazz != null">
+        #{clazz,jdbcType=TINYINT},
+      </if>
+      <if test="otherid != null">
+        #{otherid,jdbcType=INTEGER},
+      </if>
+      <if test="comTime != null">
+        #{comTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.Comment">
+    update comment
+    <set>
+      <if test="userid != null">
+        userid = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="clazz != null">
+        clazz = #{clazz,jdbcType=TINYINT},
+      </if>
+      <if test="otherid != null">
+        otherid = #{otherid,jdbcType=INTEGER},
+      </if>
+      <if test="comTime != null">
+        com_time = #{comTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="po.Comment">
+    update comment
+    set userid = #{userid,jdbcType=INTEGER},
+      clazz = #{clazz,jdbcType=TINYINT},
+      otherid = #{otherid,jdbcType=INTEGER},
+      com_time = #{comTime,jdbcType=TIMESTAMP},
+      comment = #{comment,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.Comment">
+    update comment
+    set userid = #{userid,jdbcType=INTEGER},
+      clazz = #{clazz,jdbcType=TINYINT},
+      otherid = #{otherid,jdbcType=INTEGER},
+      com_time = #{comTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

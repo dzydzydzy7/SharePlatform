@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.PaperDataMapper">
+  <resultMap id="BaseResultMap" type="po.PaperData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="paperid" jdbcType="INTEGER" property="paperid" />
+    <result column="dataid" jdbcType="INTEGER" property="dataid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, paperid, dataid
+  </sql>
+  <select id="selectDataSetIdByPaperId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select dataid from paperdata where paperid = #{paperid}
+  </select>
+  <select id="selectPaperIdByDataSetId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+  	select paperid from paperdata where dataid = #{dataid}
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from paperdata
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPaperId" parameterType="java.lang.Integer">
+  	delete from paperdata where paperid = #{paperid}
+  </delete>
+  <delete id="deleteByDataSetid" parameterType="java.lang.Integer">
+  	delete from paperdata where dataid = #{dataid}
+  </delete>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from paperdata
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="po.PaperData">
+    insert into paperdata (id, paperid, dataid
+      )
+    values (#{id,jdbcType=INTEGER}, #{paperid,jdbcType=INTEGER}, #{dataid,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="po.PaperData">
+    insert into paperdata
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="paperid != null">
+        paperid,
+      </if>
+      <if test="dataid != null">
+        dataid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="paperid != null">
+        #{paperid,jdbcType=INTEGER},
+      </if>
+      <if test="dataid != null">
+        #{dataid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="po.PaperData">
+    update paperdata
+    <set>
+      <if test="paperid != null">
+        paperid = #{paperid,jdbcType=INTEGER},
+      </if>
+      <if test="dataid != null">
+        dataid = #{dataid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="po.PaperData">
+    update paperdata
+    set paperid = #{paperid,jdbcType=INTEGER},
+      dataid = #{dataid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
